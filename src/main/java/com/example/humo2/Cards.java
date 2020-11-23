@@ -15,6 +15,7 @@ import java.net.URLConnection;
 public class Cards {
     @PostMapping(value = "/balance")
     public String getBalance() throws IOException {
+      /*
         System.out.println("hghgjhj");
         String cardNumber = "9860270101631892";
         String responseString = "";
@@ -57,7 +58,8 @@ public class Cards {
         while ((responseString = in.readLine()) != null) {
             outputString = outputString + responseString;
         }
+        */
 
-        return  outputString;
+        return  new HumoGetApi().poster();
     }
 }
