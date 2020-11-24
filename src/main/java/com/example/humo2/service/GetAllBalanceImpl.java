@@ -51,8 +51,7 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
          List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
-
-
+         cards.forEach(System.out::println);
         }
 
         return null;

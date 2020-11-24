@@ -8,35 +8,35 @@ import java.util.Date;
  *
  */
 public class CardsDto {
-    private String cardType;
-    private String account;
-    private double balance;
-    private String branch;
-    private String cardBelonging;
-    private String cardKind;
-    private int cardListVist;
-    private String cardNumberMask;
-    private String cardSort;
-    private String cardHolderName;
-    private String currencyCode;
-    private String currencyIsoCode;
-    private String embossedName;
-    private Date expirationDate;
-    private String extId;
-    private int rejection;
-    private String serviceTerms;
-    private String state;
-    private int tempBlocking;
-    private String type;
-    private  int visibleAccount;
-    private String phoneNumber;
-    private String cardNumber;
-    private int clientId;
-    private int contractId;
-    private int isAbroadUsing;
-    private int isInternetUsing;
-    private int replwoutConv;
-    private int withdraw;
+    private  String cardType;
+    private  String account;
+    private  double balance;
+    private  String branch;
+    private  String cardBelonging;
+    private  String cardKind;
+    private  int cardListVist;
+    private  String cardNumberMask;
+    private  String cardSort;
+    private  String cardHolderName;
+    private  String currencyCode;
+    private  String currencyIsoCode;
+    private  String embossedName;
+    private  Date expirationDate;
+    private  String extId;
+    private  int rejection;
+    private  String serviceTerms;
+    private  String state;
+    private  int tempBlocking;
+    private  String type;
+    private   int visibleAccount;
+    private  String phoneNumber;
+    private  String cardNumber;
+    private  int clientId;
+    private  int contractId;
+    private  int isAbroadUsing;
+    private  int isInternetUsing;
+    private  int replwoutConv;
+    private  int withdraw;
 
     public String getCardType() {
         return cardType;
@@ -268,5 +268,43 @@ public class CardsDto {
 
     public void setWithdraw(int withdraw) {
         this.withdraw = withdraw;
+    }
+
+    public CardsDto() {
+    }
+
+    @Override
+    public String toString() {
+        return "CardsDto{" +
+                "cardType='" + cardType + '\'' +
+                ", account='" + account + '\'' +
+                ", balance=" + balance +
+                ", branch='" + branch + '\'' +
+                ", cardBelonging='" + cardBelonging + '\'' +
+                ", cardKind='" + cardKind + '\'' +
+                ", cardListVist=" + cardListVist +
+                ", cardNumberMask='" + cardNumberMask + '\'' +
+                ", cardSort='" + cardSort + '\'' +
+                ", cardHolderName='" + cardHolderName + '\'' +
+                ", currencyCode='" + currencyCode + '\'' +
+                ", currencyIsoCode='" + currencyIsoCode + '\'' +
+                ", embossedName='" + embossedName + '\'' +
+                ", expirationDate=" + expirationDate +
+                ", extId='" + extId + '\'' +
+                ", rejection=" + rejection +
+                ", serviceTerms='" + serviceTerms + '\'' +
+                ", state='" + state + '\'' +
+                ", tempBlocking=" + tempBlocking +
+                ", type='" + type + '\'' +
+                ", visibleAccount=" + visibleAccount +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", clientId=" + clientId +
+                ", contractId=" + contractId +
+                ", isAbroadUsing=" + isAbroadUsing +
+                ", isInternetUsing=" + isInternetUsing +
+                ", replwoutConv=" + replwoutConv +
+                ", withdraw=" + withdraw +
+                '}';
     }
 }
