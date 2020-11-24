@@ -1,6 +1,14 @@
 package com.example.humo2;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import javax.net.ssl.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -17,9 +25,9 @@ import java.security.cert.X509Certificate;
 public class HumoGetApi {
     private final String proxyPort = "3128"; //your proxy port
     private final String proxyHost = "172.16.10.3";
-    private final String cardNumber = "9860270101631892";
 
-    public String poster( ) {
+
+    public String poster(String cardNumber) {
 
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
 
@@ -78,17 +86,7 @@ public class HumoGetApi {
         conn.setRequestProperty("SOAPAction", "");
         conn.setDoOutput(true);
         conn.setDoInput(true);
-      /*String json ="{" +
-              "\"id\": 123," +
-              "\"jsonrpc\": \"2.0\"," +
-              "\"method\": \"cards.new\"," +
-              "\"params\": {" +
-              "\"card\": {" +
-              "\"expiry\": \"2411\"," +
-              "\"pan\": \"8600572908232023\"" +
-              "}" +
-              "}" +
-              "}";*/
+
 
         InputStream in=null;
         try {
@@ -107,10 +105,29 @@ public class HumoGetApi {
 
         response = convertStreamToString(in);
         conn.disconnect();
-        return response;
+
+        Document document = parseXmlFile(response);
+        NodeList nodeList = document.getElementsByTagName("availableAmount");
+        Double balanceResult = Double.parseDouble(nodeList.item(1).getTextContent());
+
+        return   Double.toString(balanceResult/100);
 
     }
 
+    private Document parseXmlFile(String in) {
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            InputSource is = new InputSource(new StringReader(in));
+            return db.parse(is);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private String convertStreamToString(InputStream in) {
         BufferedReader reader=new BufferedReader(new InputStreamReader(in));
         StringBuilder stringBuilder=new StringBuilder();
