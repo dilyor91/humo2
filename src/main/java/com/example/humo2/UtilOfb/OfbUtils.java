@@ -54,7 +54,7 @@ public class OfbUtils {
             "                              0 isAbroadUsing,\n" +
             "                              au.number_8 isInternetUsing,\n" +
             "                              1 replWOutConv,\n" +
-            "                              1 withdWOutConv\n" +
+            "                              1 withdWOutConv,\n" +
             "                               au.symbol_18 cardID\n"+
             "                         from ibs.bss_au_reptemp_l au";
 
