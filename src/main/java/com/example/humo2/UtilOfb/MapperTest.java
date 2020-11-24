@@ -47,6 +47,7 @@ public class MapperTest implements RowMapper<CardsDto> {
         cardsDto.setIsInternetUsing(resultSet.getInt(27));
         cardsDto.setReplwoutConv(resultSet.getInt(28));
         cardsDto.setWithdraw(resultSet.getInt(29));
+        cardsDto.setCardID(resultSet.getNString(30));
         return cardsDto;
     }
 }
