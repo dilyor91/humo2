@@ -1,5 +1,6 @@
 package com.example.humo2.UtilOfb;
 
+import com.example.humo2.dto.CardsDto;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -16,6 +17,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 /*
@@ -230,4 +232,51 @@ public class OfbUtils {
         }
 
     }
+
+    public String generateAnswer(CardsDto cardsDto){
+        StringBuilder builder = new StringBuilder();
+        builder.append(generateWithTag(cardsDto.getAccount(),"account"));
+        builder.append(generateWithTag(cardsDto.getBalance(),"balance"));
+        builder.append(generateWithTag(cardsDto.getBranch(),"branch"));
+        builder.append(generateWithTag(cardsDto.getCardBelonging(),"cardBelonging"));
+        builder.append(generateWithTag(cardsDto.getCardKind(),"cardKind"));
+        builder.append(generateWithTag(cardsDto.getCardListVist(),"cardListVis"));
+        builder.append(generateWithTag(cardsDto.getCardNumberMask(),"cardNumberMask"));
+        builder.append(generateWithTag(cardsDto.getCardSort(),"cardSort"));
+        builder.append(generateWithTag(cardsDto.getCardHolderName(),"cardHolderName"));
+        builder.append(generateWithTag(cardsDto.getCurrencyCode(),"currencyCode"));
+        builder.append(generateWithTag(cardsDto.getCurrencyIsoCode(),"currencyIsoCode"));
+        builder.append(generateWithTag(cardsDto.getEmbossedName(),"embossedName"));
+        builder.append(generateWithTag(cardsDto.getExpirationDate(),"expirationDate"));
+        builder.append(generateWithTag(cardsDto.getExtId(),"extId"));
+        builder.append(generateWithTag(cardsDto.getRejection(),"rejection"));
+        builder.append(generateWithTag(cardsDto.getServiceTerms(),"serviceTerms"));
+        builder.append(generateWithTag(cardsDto.getState(),"state"));
+        builder.append(generateWithTag(cardsDto.getTempBlocking(),"tempLocking"));
+        builder.append(generateWithTag(cardsDto.getType(),"type"));
+        builder.append(generateWithTag(cardsDto.getVisibleAccount(),"visibleAccount"));
+        builder.append(generateWithTag(cardsDto.getPhoneNumber(),"phoneNumber"));
+        builder.append(generateWithTag(cardsDto.getCardNumber(),"cardNumber"));
+        builder.append(generateWithTag(cardsDto.getClientId(),"clientId"));
+        builder.append(generateWithTag(cardsDto.getContractId(),"contractId"));
+        builder.append(generateWithTag(cardsDto.getIsAbroadUsing(),"isAbroadUsing"));
+        builder.append(generateWithTag(cardsDto.getIsInternetUsing(),"isInternetUsing"));
+        builder.append(generateWithTag(cardsDto.getReplwoutConv(),"replvoutConv"));
+        builder.append(generateWithTag(cardsDto.getWithdraw(),"withDraw"));
+        return builder.toString();
+    }
+
+    private static String  generateWithTag (String value,String tag){
+        return "<" + tag +">" + value + "</" + tag + ">";
+    }
+    private static String  generateWithTag (int value,String tag){
+        return "<" + tag +">" + value + "</" + tag + ">";
+    }
+    private static String  generateWithTag (double value,String tag){
+        return "<" + tag +">" + value + "</" + tag + ">";
+    }
+    private static String  generateWithTag (Date value, String tag){
+        return "<" + tag +">" + value + "</" + tag + ">";
+    }
+
 }
