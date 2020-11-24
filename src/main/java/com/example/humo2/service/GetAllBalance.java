@@ -1,5 +1,7 @@
 package com.example.humo2.service;
 
+import com.example.humo2.dto.ClientDto;
+
 /*
  *
  *  @A Sabirov Jakhongir
@@ -7,5 +9,5 @@ package com.example.humo2.service;
  */
 public interface GetAllBalance {
 
-     String response(String client);
+     String response(ClientDto client);
 }

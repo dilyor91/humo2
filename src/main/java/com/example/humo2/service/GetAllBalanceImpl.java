@@ -5,6 +5,7 @@ import com.example.humo2.dto.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,15 @@ public class GetAllBalanceImpl implements  GetAllBalance{
 
 
     @Override
-    public String response(String client) {
-        List<ClientDto> list =  jdbcTemplate.query("select c.name from client_current c where c.id = ?",new MapperTest(),client);
+    public String response(ClientDto client) {
+     //   List<ClientDto> list =  jdbcTemplate.query("select c.name from client_current c where c.id = ?",new MapperTest(),client.getClient());
         SimpleJdbcCall procedure = new SimpleJdbcCall(jdbcTemplate).
                 withSchemaName(environment.getProperty("schemaName")).
                 withCatalogName(environment.getProperty("packageName")).
                 withProcedureName(environment.getProperty("procedureName"));
+
+       // procedure.addDeclaredParameter(new SqlParameter());
+
 
 
         return null;

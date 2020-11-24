@@ -7,7 +7,7 @@ package com.example.humo2.dto;
  */
 public class ClientDto {
     private String client;
-
+    private String mfo;
     public String getClient() {
         return client;
     }
@@ -16,4 +16,11 @@ public class ClientDto {
         this.client = client;
     }
 
+    public String getMfo() {
+        return mfo;
+    }
+
+    public void setMfo(String mfo) {
+        this.mfo = mfo;
+    }
 }
