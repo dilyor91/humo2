@@ -315,6 +315,7 @@ public class CardsDto {
                 ", isInternetUsing=" + isInternetUsing +
                 ", replwoutConv=" + replwoutConv +
                 ", withdraw=" + withdraw +
+                ", cardID='" + cardID + '\'' +
                 '}';
     }
 }
