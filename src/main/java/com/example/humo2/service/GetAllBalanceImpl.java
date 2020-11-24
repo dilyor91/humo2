@@ -1,7 +1,8 @@
 package com.example.humo2.service;
 
-import com.example.humo2.MapperTest;
+import com.example.humo2.UtilOfb.MapperTest;
 import com.example.humo2.UtilOfb.OfbUtils;
+import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Types;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,9 +50,8 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         System.out.println(result.get("N_ERROR_CODE"));
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
-            jdbcTemplate.query(OfbUtils.sql,(resultSet -> {
-                System.out.println(resultSet.getNString(1));
-            }));
+         List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
+
 
         }
 
