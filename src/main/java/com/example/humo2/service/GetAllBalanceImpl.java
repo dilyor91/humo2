@@ -5,11 +5,15 @@ import com.example.humo2.dto.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
+import java.sql.Types;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  *
@@ -32,9 +36,18 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         SimpleJdbcCall procedure = new SimpleJdbcCall(jdbcTemplate).
                 withSchemaName(environment.getProperty("schemaName")).
                 withCatalogName(environment.getProperty("packageName")).
-                withProcedureName(environment.getProperty("procedureName"));
+                withProcedureName(environment.getProperty("procedureName")).
+                declareParameters(
+                        new SqlParameter("S_CLIENT_ID", Types.VARCHAR),
+                        new SqlParameter("S_MFO",Types.VARCHAR),
+                        new SqlInOutParameter("N_ERROR_CODE",Types.NUMERIC)
+                );
+        Map<String,Object> result = procedure.execute(client.getClient(),client.getMfo(),0);
 
-       // procedure.addDeclaredParameter(new SqlParameter());
+        System.out.println(result.get("N_ERROR_CODE"));
+
+
+
 
 
 
