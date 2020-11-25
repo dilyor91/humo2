@@ -51,12 +51,12 @@ public class SvGateApi {
             result.forEach(i->{
                 JSONObject itar = (JSONObject) i;
                 phone[0]=String.valueOf(itar.get("phone"));
-                if(phone[0].substring(-9)==phoneNumber.substring(-9)) {
+                if (phone[0]!= null && phoneNumber!=null){
+                   if(phone[0].equals(phoneNumber)) {
                 balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);}
+                }
                 else
                     balance[0]="0";
-
-
             });
             return balance[0];
         }
