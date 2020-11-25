@@ -50,13 +50,15 @@ public class SvGateApi {
             //     System.out.println(hashMap.get("balance"));
             result.forEach(i->{
                 JSONObject itar = (JSONObject) i;
-                phone[0]=String.valueOf(itar.get("phone"));
+                phone[0] = String.valueOf(itar.get("phone"));
                 if (phone[0]!= null && phoneNumber!=null){
-                   if(phone[0].substring(12-phone[0].length())==phoneNumber.substring(12-phoneNumber.length())) {
-                balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);}
+                    if(phoneNumber.contains(phone[0])) {
+                        balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);
+                    }
                 }
                 else
                     balance[0]="0";
+
             });
             return balance[0];
         }
