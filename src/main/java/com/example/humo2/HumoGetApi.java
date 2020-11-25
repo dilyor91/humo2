@@ -49,7 +49,7 @@ public class HumoGetApi {
         try {
             sc = SSLContext.getInstance("TLS");
             sc.init(null, trustAllCerts, new SecureRandom());
-            System.out.println("Passed 1");
+           // System.out.println("Passed 1");
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class HumoGetApi {
             url = new URL("https://192.168.35.22:6677/");
             conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            System.out.println("Connection passed with server");
+            // System.out.println("Connection passed with server");
         } catch (IOException e) {
             System.out.println("connection Failed" + e.getMessage());
            // e.printStackTrace();
@@ -96,12 +96,12 @@ public class HumoGetApi {
             os.flush();
             os.close();
             in=new BufferedInputStream(conn.getInputStream());
-            System.out.println("success sended");
+            //System.out.println("success sended");
         } catch (IOException e) {
             System.out.println("connection Failed in sending" + e.getMessage());
         }
 
-        System.out.println(System.getProperties().toString());
+    //    System.out.println(System.getProperties().toString());
 
         response = convertStreamToString(in);
         conn.disconnect();

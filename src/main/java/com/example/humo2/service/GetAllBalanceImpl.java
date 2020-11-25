@@ -1,7 +1,10 @@
 package com.example.humo2.service;
 
+import com.example.humo2.HumoGetApi;
+import com.example.humo2.SvGateApi;
 import com.example.humo2.UtilOfb.MapperTest;
 import com.example.humo2.UtilOfb.OfbUtils;
+import com.example.humo2.dto.CardTypeE;
 import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /*
  *
@@ -31,10 +35,11 @@ public class GetAllBalanceImpl implements  GetAllBalance{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
+    // 12 seqund
 
     @Override
     public String response(ClientDto client) {
+        long startTime = System.nanoTime();
      //   List<ClientDto> list =  jdbcTemplate.query("select c.name from client_current c where c.id = ?",new MapperTest(),client.getClient());
         SimpleJdbcCall procedure = new SimpleJdbcCall(jdbcTemplate).
                 withSchemaName(environment.getProperty("schemaName")).
@@ -50,10 +55,25 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         System.out.println(result.get("N_ERROR_CODE"));
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
-         List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
-         cards.forEach(System.out::println);
-        }
+            List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
+            System.out.println(cards);
+            for (CardsDto i : cards){
+              if(i.getCardType().equals("sv")){
+                    System.out.println("SV " + i.getCardNumber() + " " + i.getCardID() + " " + SvGateApi.getBalanceUzcardById(i.getCardID()));
+                }
+              if(i.getCardType().equals("gl")){
+                    System.out.println("GL " + i.getCardNumber() +" " + HumoGetApi.poster(i.getCardNumber()));
+                }
 
+                if(i.getCardType().equals("tet")){
+                    System.out.println("TET: " +i.getCardNumber() + " " + i.getBalance());
+                }
+            }
+        }
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        long convert = TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
+        System.out.println(totalTime +" S: " + convert);
         return null;
     }
 }
