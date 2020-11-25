@@ -50,7 +50,7 @@ public class SvGateApi {
             //     System.out.println(hashMap.get("balance"));
             result.forEach(i->{
                 JSONObject itar = (JSONObject) i;
-                phone[0]=String.valueOf(itar.get("phoneNumber"));
+                phone[0]=String.valueOf(itar.get("phone"));
                 if(phone[0].substring(-9)==phoneNumber.substring(-9)) {
                 balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);}
                 else
