@@ -21,6 +21,7 @@ public class MapperTest implements RowMapper<CardsDto> {
         CardsDto cardsDto = new CardsDto();
         cardsDto.setCardType(resultSet.getNString(1));
         cardsDto.setAccount(resultSet.getNString(2));
+        cardsDto.setBalance(resultSet.getDouble(3));
         cardsDto.setBranch(resultSet.getNString(4));
         cardsDto.setCardBelonging(resultSet.getNString(5));
         cardsDto.setCardKind(resultSet.getNString(6));

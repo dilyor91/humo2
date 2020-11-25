@@ -27,7 +27,7 @@ public class HumoGetApi {
     private final String proxyHost = "172.16.10.3";
 
 
-    public String poster(String cardNumber) {
+    public static String poster(String cardNumber) {
 
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
 
@@ -114,7 +114,7 @@ public class HumoGetApi {
 
     }
 
-    private Document parseXmlFile(String in) {
+    private static Document parseXmlFile(String in) {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -128,7 +128,7 @@ public class HumoGetApi {
             throw new RuntimeException(e);
         }
     }
-    private String convertStreamToString(InputStream in) {
+    private static String convertStreamToString(InputStream in) {
         BufferedReader reader=new BufferedReader(new InputStreamReader(in));
         StringBuilder stringBuilder=new StringBuilder();
         String line;
