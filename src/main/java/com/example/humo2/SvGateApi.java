@@ -52,7 +52,7 @@ public class SvGateApi {
                 JSONObject itar = (JSONObject) i;
                 phone[0]=String.valueOf(itar.get("phone"));
                 if (phone[0]!= null && phoneNumber!=null){
-                   if(phone[0].equals(phoneNumber)) {
+                   if(phone[0].substring(12-phone[0].length())==phoneNumber.substring(12-phoneNumber.length())) {
                 balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);}
                 }
                 else
