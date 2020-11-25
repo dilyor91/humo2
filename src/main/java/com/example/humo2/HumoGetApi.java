@@ -114,7 +114,7 @@ public class HumoGetApi {
 
     }
 
-    private static Document parseXmlFile(String in) {
+    public static Document parseXmlFile(String in) {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();

@@ -40,22 +40,17 @@ public class GetAllBalanceImpl implements  GetAllBalance{
     private static StringBuilder stringBuilder;
 
     @Override
-    public String response(ClientDto client) {
-        stringBuilder = new StringBuilder();
-        stringBuilder.append("<cards>\n");
+    public List<CardsDto> response(ClientDto client) {
         long startTime = System.nanoTime();
      //   List<ClientDto> list =  jdbcTemplate.query("select c.name from client_current c where c.id = ?",new MapperTest(),client.getClient());
-        SimpleJdbcCall procedure = new SimpleJdbcCall(jdbcTemplate).
-                withSchemaName(environment.getProperty("schemaName")).
-                withCatalogName(environment.getProperty("packageName")).
-                withProcedureName(environment.getProperty("procedureName")).
-                declareParameters(
-                        new SqlParameter("S_CLIENT_ID", Types.VARCHAR),
-                        new SqlParameter("S_MFO",Types.VARCHAR),
-                        new SqlInOutParameter("N_ERROR_CODE",Types.NUMERIC)
-                );
-        Map<String,Object> result = procedure.execute(client.getClient(),client.getMfo(),0);
+        Map<String, Object> result = executeProcedure(client.getClient(),client.getMfo());
+        List<CardsDto> cards = getCardsDtos(result);
+        showTime(startTime);
+        if (cards != null) return cards;
+        return null;
+    }
 
+    private List<CardsDto> getCardsDtos(Map<String, Object> result) {
         System.out.println(result.get("N_ERROR_CODE"));
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
@@ -70,12 +65,41 @@ public class GetAllBalanceImpl implements  GetAllBalance{
                 System.out.println(i);
                 stringBuilder.append(OfbUtils.generateAnswer(i));
             }
+            return cards;
         }
+        return null;
+    }
+
+    private Map<String, Object> executeProcedure(String client,String mfo) {
+        SimpleJdbcCall procedure = new SimpleJdbcCall(jdbcTemplate).
+                withSchemaName(environment.getProperty("schemaName")).
+                withCatalogName(environment.getProperty("packageName")).
+                withProcedureName(environment.getProperty("procedureName")).
+                declareParameters(
+                        new SqlParameter("S_CLIENT_ID", Types.VARCHAR),
+                        new SqlParameter("S_MFO",Types.VARCHAR),
+                        new SqlInOutParameter("N_ERROR_CODE",Types.NUMERIC)
+                );
+        return procedure.execute(client,mfo,0);
+    }
+
+    @Override
+    public String responseByXml(String clientId, String mfo) {
+        stringBuilder = new StringBuilder();
+        stringBuilder.append("<cards>\n");
+        long startTime = System.nanoTime();
+        Map<String, Object> result = executeProcedure(clientId,mfo);
+        getCardsDtos(result);
         stringBuilder.append("</cards>\n");
-        long endTime   = System.nanoTime();
+        showTime(startTime);
+        return stringBuilder.toString();
+    }
+
+
+    private void showTime(long startTime) {
+        long endTime = System.nanoTime();
         long totalTime = endTime - startTime;
         long convert = TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
-        System.out.println(totalTime +" S: " + convert);
-        return stringBuilder.toString();
+        System.out.println(totalTime + " S: " + convert);
     }
 }

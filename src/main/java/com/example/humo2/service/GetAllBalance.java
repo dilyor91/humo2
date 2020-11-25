@@ -1,6 +1,9 @@
 package com.example.humo2.service;
 
+import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
+
+import java.util.List;
 
 /*
  *
@@ -9,5 +12,6 @@ import com.example.humo2.dto.ClientDto;
  */
 public interface GetAllBalance {
 
-     String response(ClientDto client);
+     List<CardsDto> response(ClientDto client);
+     String responseByXml(String clientId,String mfo);
 }
