@@ -37,8 +37,12 @@ public class GetAllBalanceImpl implements  GetAllBalance{
 
     // 12 seqund
 
+    private static StringBuilder stringBuilder;
+
     @Override
     public String response(ClientDto client) {
+        stringBuilder = new StringBuilder();
+        stringBuilder.append("<cards>\n");
         long startTime = System.nanoTime();
      //   List<ClientDto> list =  jdbcTemplate.query("select c.name from client_current c where c.id = ?",new MapperTest(),client.getClient());
         SimpleJdbcCall procedure = new SimpleJdbcCall(jdbcTemplate).
@@ -56,24 +60,22 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
             List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
-            System.out.println(cards);
             for (CardsDto i : cards){
               if(i.getCardType().equals("sv")){
-                    System.out.println("SV " + i.getCardNumber() + " " + i.getCardID() + " " + SvGateApi.getBalanceUzcardById(i.getCardID()));
+                    i.setBalance(Double.parseDouble(SvGateApi.getBalanceUzcardById(i.getCardID())));
                 }
               if(i.getCardType().equals("gl")){
-                    System.out.println("GL " + i.getCardNumber() +" " + HumoGetApi.poster(i.getCardNumber()));
+                  i.setBalance(Double.parseDouble(HumoGetApi.poster(i.getCardNumber())));
                 }
-
-                if(i.getCardType().equals("tet")){
-                    System.out.println("TET: " +i.getCardNumber() + " " + i.getBalance());
-                }
+                System.out.println(i);
+                stringBuilder.append(OfbUtils.generateAnswer(i));
             }
         }
+        stringBuilder.append("</cards>\n");
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
         long convert = TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
         System.out.println(totalTime +" S: " + convert);
-        return null;
+        return stringBuilder.toString();
     }
 }

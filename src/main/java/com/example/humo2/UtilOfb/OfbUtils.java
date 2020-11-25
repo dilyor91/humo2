@@ -234,8 +234,9 @@ public class OfbUtils {
 
     }
 
-    public String generateAnswer(CardsDto cardsDto){
+    public static String generateAnswer(CardsDto cardsDto){
         StringBuilder builder = new StringBuilder();
+        builder.append("<card>\n");
         builder.append(generateWithTag(cardsDto.getAccount(),"account"));
         builder.append(generateWithTag(cardsDto.getBalance(),"balance"));
         builder.append(generateWithTag(cardsDto.getBranch(),"branch"));
@@ -264,20 +265,21 @@ public class OfbUtils {
         builder.append(generateWithTag(cardsDto.getIsInternetUsing(),"isInternetUsing"));
         builder.append(generateWithTag(cardsDto.getReplwoutConv(),"replvoutConv"));
         builder.append(generateWithTag(cardsDto.getWithdraw(),"withDraw"));
+        builder.append("</card>\n");
         return builder.toString();
     }
 
     private static String  generateWithTag (String value,String tag){
-        return "<" + tag +">" + value + "</" + tag + ">";
+        return "<" + tag +">" + value + "</" + tag + ">\n";
     }
     private static String  generateWithTag (int value,String tag){
-        return "<" + tag +">" + value + "</" + tag + ">";
+        return "<" + tag +">" + value + "</" + tag + ">\n";
     }
     private static String  generateWithTag (double value,String tag){
-        return "<" + tag +">" + value + "</" + tag + ">";
+        return "<" + tag +">" + value + "</" + tag + ">\n";
     }
     private static String  generateWithTag (Date value, String tag){
-        return "<" + tag +">" + value + "</" + tag + ">";
+        return "<" + tag +">" + value + "</" + tag + ">\n";
     }
 
 }
