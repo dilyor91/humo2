@@ -4,7 +4,7 @@ import com.example.humo2.HumoGetApi;
 import com.example.humo2.SvGateApi;
 import com.example.humo2.UtilOfb.MapperTest;
 import com.example.humo2.UtilOfb.OfbUtils;
-import com.example.humo2.dto.CardTypeE;
+//import com.example.humo2.dto.CardTypeE;
 import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -52,12 +53,14 @@ public class GetAllBalanceImpl implements  GetAllBalance{
 
     private List<CardsDto> getCardsDtos(Map<String, Object> result) {
         System.out.println(result.get("N_ERROR_CODE"));
+        List<String>cardIds=new ArrayList<>();
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
             List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
             for (CardsDto i : cards){
               if(i.getCardType().equals("sv")){
-                    i.setBalance(Double.parseDouble(SvGateApi.getBalanceUzcardById(i.getCardID())));
+                  //cardIds.add(i.getCardID());
+                  i.setBalance(Double.parseDouble(SvGateApi.getBalanceUzcardById(i.getCardID(),i.getPhoneNumber())));
                 }
               if(i.getCardType().equals("gl")){
                   i.setBalance(Double.parseDouble(HumoGetApi.poster(i.getCardNumber())));

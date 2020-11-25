@@ -18,8 +18,9 @@ public class SvGateApi {
     private static RestTemplate restTemplate = new RestTemplate();
     private static final String api = "http://10.10.110.47:8080/SvGateClient/sender";
 
-    public static String getBalanceUzcardById(String cardId){
+    public static String getBalanceUzcardById(String cardId,String phoneNumber){
         final String[] balance = {"0"};
+        final String[] phone={"0"};
         JSONObject object = new JSONObject();
         JSONArray array=new JSONArray();
         JSONObject jsonObject=new JSONObject();
@@ -49,7 +50,13 @@ public class SvGateApi {
             //     System.out.println(hashMap.get("balance"));
             result.forEach(i->{
                 JSONObject itar = (JSONObject) i;
-                balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);
+                phone[0]=String.valueOf(itar.get("phoneNumber"));
+                if(phone[0].substring(-9)==phoneNumber.substring(-9)) {
+                balance[0] = String.valueOf(Double.parseDouble(String.valueOf((itar.get("balance"))))/100);}
+                else
+                    balance[0]="0";
+
+
             });
             return balance[0];
         }
