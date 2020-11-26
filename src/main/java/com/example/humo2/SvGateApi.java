@@ -2,9 +2,11 @@ package com.example.humo2;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +17,13 @@ import java.util.List;
  */
 public class SvGateApi {
 
-    private static RestTemplate restTemplate = new RestTemplate();
+    private static RestTemplate restTemplate;
     private static final String api = "http://10.10.110.47:8080/SvGateClient/sender";
 
     public static String getBalanceUzcardById(String cardId,String phoneNumber){
+
+        Duration duration = Duration.ofSeconds(5);
+        restTemplate = new RestTemplateBuilder().setConnectTimeout(duration).setConnectTimeout(duration).build();
         final String[] balance = {"0"};
         final String[] phone={"0"};
         JSONObject object = new JSONObject();

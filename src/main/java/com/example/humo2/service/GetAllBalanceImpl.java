@@ -7,6 +7,7 @@ import com.example.humo2.UtilOfb.OfbUtils;
 //import com.example.humo2.dto.CardTypeE;
 import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 import java.math.BigDecimal;
 import java.sql.Types;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /*
  *
@@ -36,10 +39,14 @@ public class GetAllBalanceImpl implements  GetAllBalance{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+
     // 12 seqund
 
     private static StringBuilder stringBuilder;
+    private static Logger logger = (Logger) Logger.getLogger(String.valueOf(GetAllBalanceImpl.class));
 
+    // final Logger logger = Logger.getLogger(String.valueOf(GetAllBalanceImpl.class));
     @Override
     public List<CardsDto> response(ClientDto client) {
         long startTime = System.nanoTime();
@@ -52,23 +59,34 @@ public class GetAllBalanceImpl implements  GetAllBalance{
     }
 
     private List<CardsDto> getCardsDtos(Map<String, Object> result) {
-        System.out.println(result.get("N_ERROR_CODE"));
+        logger.info("Procedura ishga tushyabdi");
         List<String>cardIds=new ArrayList<>();
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
+            logger.info("Error_code 0");
             List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
-            for (CardsDto i : cards){
+            for (CardsDto i : cards)
+            {
+
               if(i.getCardType().equals("sv")){
+                  logger.info("SV ishga tushyabdi " + i.getCardNumber());
                   //cardIds.add(i.getCardID());
                   i.setBalance(Double.parseDouble(SvGateApi.getBalanceUzcardById(i.getCardID(),i.getPhoneNumber())));
+                  logger.info("SV yakunlandi " + i.getCardNumber() + " " + i.getBalance());
                 }
+
               if(i.getCardType().equals("gl")){
+                  logger.info("GL ishga tushyabdi " + i.getCardNumber());
                   i.setBalance(Double.parseDouble(HumoGetApi.poster(i.getCardNumber())));
+                  logger.info("GL yakunlandi " + i.getCardNumber() + " " + i.getBalance());
                 }
-                System.out.println(i);
+              //     System.out.println(i);
                 stringBuilder.append(OfbUtils.generateAnswer(i));
             }
+            logger.info("Hammasi PCdaki balans olishlar Yakunlandi ");
             return cards;
+        }else{
+            logger.info("Hatolik ro`y berdi proceduradan 1 qaytdi");
         }
         return null;
     }
@@ -88,13 +106,16 @@ public class GetAllBalanceImpl implements  GetAllBalance{
 
     @Override
     public String responseByXml(String clientId, String mfo) {
+        logger.info("Bu yerga " + clientId + "  " + mfo + " Keldi");
         stringBuilder = new StringBuilder();
         stringBuilder.append("<cards>\n");
         long startTime = System.nanoTime();
+        logger.info("boshlangan vaqti " + startTime);
         Map<String, Object> result = executeProcedure(clientId,mfo);
         getCardsDtos(result);
         stringBuilder.append("</cards>\n");
         showTime(startTime);
+        logger.info("butunlay yakunlandi  clientID: " + clientId + "  MFO: " + mfo);
         return stringBuilder.toString();
     }
 
@@ -103,6 +124,7 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         long endTime = System.nanoTime();
         long totalTime = endTime - startTime;
         long convert = TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
+        logger.info("Tamom bo`lgan vaqti  shuncha sequnda" + convert);
         System.out.println(totalTime + " S: " + convert);
     }
 }
