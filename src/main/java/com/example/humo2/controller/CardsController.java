@@ -30,7 +30,7 @@ public class CardsController {
      final Logger logger = (Logger) Logger.getLogger(String.valueOf(CardsController.class));
 
     @PostMapping(value = "/balance")
-    public ResponseEntity<String> getBalance(@RequestBody String request) throws IOException {
+    public synchronized ResponseEntity<String> getBalance(@RequestBody String request) throws IOException {
         logger.info("==Zapros keldi==");
         Document document = HumoGetApi.parseXmlFile(request);
         String branchId = document.getElementsByTagName("branchId").item(0).getTextContent();
