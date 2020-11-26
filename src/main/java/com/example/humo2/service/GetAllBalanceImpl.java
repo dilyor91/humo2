@@ -60,6 +60,7 @@ public class GetAllBalanceImpl implements  GetAllBalance{
 
     private List<CardsDto> getCardsDtos(Map<String, Object> result) {
         logger.info("Procedura ishga tushyabdi");
+        CardsDto cardsDto=new CardsDto();
         List<String>cardIds=new ArrayList<>();
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
@@ -69,17 +70,26 @@ public class GetAllBalanceImpl implements  GetAllBalance{
             {
 
               if(i.getCardType().equals("sv")){
-                  logger.info("SV ishga tushyabdi " + i.getCardNumber());
-                  //cardIds.add(i.getCardID());
-                  i.setBalance(Double.parseDouble(SvGateApi.getBalanceUzcardById(i.getCardID(),i.getPhoneNumber())));
-                  logger.info("SV yakunlandi " + i.getCardNumber() + " " + i.getBalance());
+                  if(i.getBalance()!=-1){
+                      logger.info("SV ishga tushyabdi " + i.getCardNumber());
+                      //i.setBalance(Double.parseDouble(SvGateApi.getBalanceUzcardById(i.getCardID(),i.getPhoneNumber())));
+                      cardsDto=SvGateApi.getBalanceUzcardById(i);
+                      i.setBalance(cardsDto.getBalance());
+                      i.setState(cardsDto.getState());
+                      System.out.println("sv --------  "+cardsDto.getState());
+                      logger.info("SV yakunlandi " + i.getCardNumber() + " " + i.getBalance());
+                  }
+                  else
+                      i.setBalance(0);
                 }
 
-              if(i.getCardType().equals("gl")){
-                  logger.info("GL ishga tushyabdi " + i.getCardNumber());
-                  i.setBalance(Double.parseDouble(HumoGetApi.poster(i.getCardNumber())));
-                  logger.info("GL yakunlandi " + i.getCardNumber() + " " + i.getBalance());
-                }
+              if(i.getCardType().equals("gl")) {
+                  if (i.getBalance() != 1) {
+                      logger.info("GL ishga tushyabdi " + i.getCardNumber());
+                      i.setBalance(Double.parseDouble(HumoGetApi.poster(i.getCardNumber())));
+                      logger.info("GL yakunlandi " + i.getCardNumber() + " " + i.getBalance());
+                  } else i.setBalance(0);
+              }
               //     System.out.println(i);
                 stringBuilder.append(OfbUtils.generateAnswer(i));
             }
