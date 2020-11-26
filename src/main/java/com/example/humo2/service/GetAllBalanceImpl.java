@@ -84,7 +84,7 @@ public class GetAllBalanceImpl implements  GetAllBalance{
                 }
 
               if(i.getCardType().equals("gl")) {
-                  if (i.getBalance() != 1) {
+                  if (i.getBalance() != -1) {
                       logger.info("GL ishga tushyabdi " + i.getCardNumber());
                       i.setBalance(Double.parseDouble(HumoGetApi.poster(i.getCardNumber())));
                       logger.info("GL yakunlandi " + i.getCardNumber() + " " + i.getBalance());
