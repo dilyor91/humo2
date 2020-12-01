@@ -7,7 +7,6 @@ import com.example.humo2.UtilOfb.OfbUtils;
 //import com.example.humo2.dto.CardTypeE;
 import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +14,6 @@ import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
 import java.math.BigDecimal;
 import java.sql.Types;
@@ -65,7 +63,7 @@ public class GetAllBalanceImpl implements  GetAllBalance{
         if(result.get("N_ERROR_CODE").equals(new BigDecimal(Long.parseLong("0"))))
         {
             logger.info("Error_code 0");
-            List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.sql, new MapperTest());
+            List<CardsDto> cards =   jdbcTemplate.query(OfbUtils.SQL, new MapperTest());
             for (CardsDto i : cards)
             {
 

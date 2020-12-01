@@ -1,5 +1,6 @@
 package com.example.humo2;
 
+import com.example.humo2.UtilOfb.OfbUtils;
 import com.example.humo2.dto.CardsDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ import java.util.List;
 public class SvGateApi {
 
     private static RestTemplate restTemplate;
-    private static final String api = "http://10.10.110.47:8080/SvGateClient/sender";
+
 
     public static String getBalanceUzcardById(String cardId,String phoneNumber){
 
@@ -35,11 +36,12 @@ public class SvGateApi {
         // array.put("969A028DFA530698E0530100007FE074");
         object.put("ids",array);
         jsonObject.put("params",object);
-        jsonObject.put("authorization","b2ZiOk9yaUBlbnQkYW4kOE1iOnsrI0ZpblslbXZFYg==");
+        jsonObject.put("authorization",OfbUtils.SV_GATE_AUTHO);
         jsonObject.put("method","cards.get");
         jsonObject.put("id","7777");
         jsonObject.put("timeout","10");
-        jsonObject.put("svgateurl","https://172.16.249.33:47007/api/jsonrpc");
+        
+        jsonObject.put("svgateurl",OfbUtils.SV_GATE_API);
         jsonObject.put("jsonrpc","2.0");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -48,7 +50,7 @@ public class SvGateApi {
         headers.setAccept(list);
         HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), headers);
         ResponseEntity<String> getResponse = restTemplate
-                .exchange(api, HttpMethod.POST, entity, String.class);
+                .exchange(OfbUtils.FIDO_API_INSIDE, HttpMethod.POST, entity, String.class);
         if(getResponse.getStatusCode()==HttpStatus.OK){
             JSONObject response = new JSONObject(getResponse.getBody());
             //hello world
@@ -101,7 +103,7 @@ public class SvGateApi {
         headers.setAccept(list);
         HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), headers);
         ResponseEntity<String> getResponse = restTemplate
-                .exchange(api, HttpMethod.POST, entity, String.class);
+                .exchange(OfbUtils.FIDO_API_INSIDE, HttpMethod.POST, entity, String.class);
         if(getResponse.getStatusCode()==HttpStatus.OK){
             JSONObject response = new JSONObject(getResponse.getBody());
             //hello world

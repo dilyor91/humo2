@@ -26,7 +26,7 @@ import java.util.Iterator;
  *
  */
 public class OfbUtils {
-    public static final String sql = "  select au.symbol_1 xxxflag,\n" +
+    public static final String SQL = "  select au.symbol_1 xxxflag,\n" +
             "                              au.symbol_9 account,\n" +
             "                              au.number_7 balance,\n" +
             "                              au.symbol_2 branch,\n" +
@@ -57,6 +57,11 @@ public class OfbUtils {
             "                              1 withdWOutConv,\n" +
             "                               au.symbol_18 cardID\n"+
             "                         from ibs.bss_au_reptemp_l au";
+    public static final String FIDO_API_INSIDE = "http://10.10.110.47:8080/SvGateClient/sender";
+
+    public static final String SV_GATE_API = "https://172.16.249.33:47007/api/jsonrpc";
+
+    public static final String SV_GATE_AUTHO = "b2ZiOk9yaUBlbnQkYW4kOE1iOnsrI0ZpblslbXZFYg==";
 
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
