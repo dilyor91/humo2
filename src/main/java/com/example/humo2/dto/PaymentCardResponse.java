@@ -5,7 +5,8 @@
 // Generated on: 2019.10.23 at 11:08:38 AM UZT 
 //
 
-package com.bssys.sbns.integration;
+
+package com.example.humo2.dto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
