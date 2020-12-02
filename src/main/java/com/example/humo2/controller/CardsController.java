@@ -3,6 +3,7 @@ package com.example.humo2.controller;
 import com.example.humo2.HumoGetApi;
 import com.example.humo2.dto.CardsDto;
 import com.example.humo2.dto.ClientDto;
+import com.example.humo2.dto.PaymentCardResponse;
 import com.example.humo2.service.GetAllBalance;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CardsController {
      final Logger logger = (Logger) Logger.getLogger(String.valueOf(CardsController.class));
 
     @PostMapping(value = "/balance")
-    public  ResponseEntity<String> getBalance(@RequestBody String request) {
+    public  ResponseEntity<PaymentCardResponse> getBalance(@RequestBody String request) {
         logger.info("==Zapros keldi==");
         Document document = HumoGetApi.parseXmlFile(request);
         String branchId = document.getElementsByTagName("branchId").item(0).getTextContent();
